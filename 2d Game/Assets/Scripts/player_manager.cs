@@ -138,10 +138,10 @@ public class player_manager : MonoBehaviour {
 
         if (pm.playerSpawned.Equals(gameObject)) return; //Don't kill yourself: Call 1-800-273-8255
 
+        incoming_projectile.GetComponent<Rigidbody2D>().velocity *= 0; //stop moving
+        incoming_projectile.GetComponent<BoxCollider2D>().enabled = false;
+
         bool killed = false;
-        Debug.Log("PROJECTILE TEAM: " + pm.Team);
-        Debug.Log("MY TEAM: " + m_Team);
-        Debug.Log("PROJECTILE DAMAGE: " + pm.Damage);
         if (pm.Team != m_Team) killed = Take_Damage(pm.Damage);
         else if (gm.FRIENDLY_FIRE_ENABLED) killed = Take_Damage(pm.Damage);
 
@@ -150,7 +150,6 @@ public class player_manager : MonoBehaviour {
             pm.CausedKill();
             Destroy(gameObject);
         }
-        Destroy(pm.gameObject);
     }
 
     // Use this for initialization
