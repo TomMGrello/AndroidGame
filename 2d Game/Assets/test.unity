@@ -161,6 +161,11 @@ Prefab:
       propertyPath: debug_team
       value: 103
       objectReference: {fileID: 0}
+    - target: {fileID: 114672350011316052, guid: 6779c08d62368454db0c7383bdecfe9a,
+        type: 2}
+      propertyPath: debug_stationary
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6779c08d62368454db0c7383bdecfe9a, type: 2}
   m_IsPrefabParent: 0
@@ -261,11 +266,6 @@ Prefab:
     - target: {fileID: 4490792506987052, guid: 6779c08d62368454db0c7383bdecfe9a, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114672350011316052, guid: 6779c08d62368454db0c7383bdecfe9a,
-        type: 2}
-      propertyPath: debug_stationary
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6779c08d62368454db0c7383bdecfe9a, type: 2}

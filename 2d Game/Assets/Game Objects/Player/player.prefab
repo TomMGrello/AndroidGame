@@ -69,7 +69,7 @@ Transform:
   m_GameObject: {fileID: 1653797413637206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0472215, y: 1.0472214, z: 1.0472214}
+  m_LocalScale: {x: 1.1414715, y: 1.1414714, z: 1.1414714}
   m_Children: []
   m_Father: {fileID: 4389634562031740}
   m_RootOrder: 0
@@ -148,12 +148,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549c1de0f86443d4bbbbb3d94c4223e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug_stationary: 1
+  debug_stationary: 0
   debug_health: 100
   debug_team: 114
   movement_speed: 5
   projectile: {fileID: 1829287300684370, guid: c59c83751054e0445ad346d1137351ac, type: 2}
   projectileSpeed: 50
+  Weapons:
+  - {fileID: 114205391908260368, guid: 2b75f59ea624d2c4e8c605489d2faf27, type: 2}
+  - {fileID: 114305785693304170, guid: ce624703ba0516a478f371603fc7fd04, type: 2}
+  - {fileID: 114766505978012910, guid: 183e7163b5197124486a8a2238a4c71f, type: 2}
+  - {fileID: 114407334973201490, guid: 69d154a4deaf73843af3821f18f94cec, type: 2}
+  - {fileID: 114591401163898022, guid: 5b2655612fc2c8444b6ec15d00bff331, type: 2}
+  - {fileID: 114999570253560082, guid: 70574d0563c2753499f39c5b2aa691ef, type: 2}
+  selectedWeapon: 0
 --- !u!212 &212642551690399164
 SpriteRenderer:
   m_ObjectHideFlags: 1

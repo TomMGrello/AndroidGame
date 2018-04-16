@@ -10,6 +10,8 @@ public class player_manager : MonoBehaviour {
     public float movement_speed = 5;
     public GameObject projectile;
     public float projectileSpeed = 50;
+    public List<Weapon> Weapons = new List<Weapon>();
+    public int selectedWeapon = 0;
 
     /*******************************************************************************************************/
     /********************************************* Properties **********************************************/
@@ -117,19 +119,27 @@ public class player_manager : MonoBehaviour {
 
     private void Fire_Projectile()
     {
-        GameObject proj = Instantiate(projectile, transform.position, Quaternion.identity);
-        ProjectileManager prm = proj.GetComponent<ProjectileManager>();
-        prm.color = tm.Starting_Colors[m_Team];
-        prm.Team = m_Team;
-        prm.playerSpawned = gameObject;
+        Weapon wep = Weapons[selectedWeapon];
+        List<GameObject> projBuffer = new List<GameObject>();
+        for(int i = 0; i < wep.RoundsPerShot; i++)
+        {
+            GameObject proj = Instantiate(wep.projectile, transform.position, Quaternion.identity);
+            ProjectileManager prm = proj.GetComponent<ProjectileManager>();
+            prm.color = wep.GunColor;
+            prm.Team = m_Team;
+            prm.playerSpawned = gameObject;
+            // convert mouse position into world coordinates
+            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // convert mouse position into world coordinates
-        Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 diff = mouseWorldPosition - new Vector2(transform.position.x,transform.position.y);
 
-        // get direction you want to point at
-        Vector2 direction = (mouseWorldPosition - (Vector2)transform.position).normalized;
+            Vector2 halfleft = new Vector2(-diff.y, diff.x) / Mathf.Sqrt(Mathf.Pow(diff.x,2) + Mathf.Pow(diff.y, 2)) * (wep.SpreadAmount/2);
 
-        proj.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+            // get direction you want to point at
+            Vector2 direction = (mouseWorldPosition - (Vector2)transform.position).normalized;
+
+            proj.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+        }      
     }
 
     private void ProjectileCollisionHandler(GameObject incoming_projectile)
@@ -150,6 +160,13 @@ public class player_manager : MonoBehaviour {
             pm.CausedKill();
             Destroy(gameObject);
         }
+    }
+
+    private void ChangeWeapon()
+    {
+        float dir = Input.GetAxis("Mouse ScrollWheel") * 10;
+        if (dir < 0f) selectedWeapon = ((selectedWeapon - 1) + Weapons.Count) % Weapons.Count;
+        else if (dir > 0f) selectedWeapon = ((selectedWeapon + 1) + Weapons.Count) % Weapons.Count;
     }
 
     // Use this for initialization
@@ -180,6 +197,7 @@ public class player_manager : MonoBehaviour {
         {
             Player_Look();
             if (Input.GetMouseButtonDown(0)) Fire_Projectile();
+            ChangeWeapon();
         }
     }
 
