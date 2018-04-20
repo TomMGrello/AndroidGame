@@ -12,6 +12,8 @@ public class player_manager : MonoBehaviour {
     public float projectileSpeed = 50;
     public List<Weapon> Weapons = new List<Weapon>();
     public int selectedWeapon = 0;
+    public GameObject AimHelper;
+    public GameObject AimRotater;
 
     /*******************************************************************************************************/
     /********************************************* Properties **********************************************/
@@ -22,6 +24,11 @@ public class player_manager : MonoBehaviour {
     private Rigidbody2D rb;
     private Game_Manager gm;
     private bool initializing;
+    private bool firing = false;
+    private int ShotsFired = 0;
+    private float ShotTimer = 0f;
+    private float BurstCounter = 0f;
+    private bool CanFire = true;
 
 	//Health logic
 	private int m_Health = 100;
@@ -121,23 +128,35 @@ public class player_manager : MonoBehaviour {
     {
         Weapon wep = Weapons[selectedWeapon];
         List<GameObject> projBuffer = new List<GameObject>();
-        for(int i = 0; i < wep.RoundsPerShot; i++)
+        bool swapped = true;
+        // convert mouse position into world coordinates
+        Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        AimRotater.transform.localRotation = Quaternion.identity;
+        for (int i = 0; i < wep.RoundsPerShot; i++)
         {
             GameObject proj = Instantiate(wep.projectile, transform.position, Quaternion.identity);
             ProjectileManager prm = proj.GetComponent<ProjectileManager>();
             prm.color = wep.GunColor;
             prm.Team = m_Team;
             prm.playerSpawned = gameObject;
-            // convert mouse position into world coordinates
-            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            Vector2 diff = mouseWorldPosition - new Vector2(transform.position.x,transform.position.y);
-
-            Vector2 halfleft = new Vector2(-diff.y, diff.x) / Mathf.Sqrt(Mathf.Pow(diff.x,2) + Mathf.Pow(diff.y, 2)) * (wep.SpreadAmount/2);
-
+            
             // get direction you want to point at
-            Vector2 direction = (mouseWorldPosition - (Vector2)transform.position).normalized;
-
+            if(i != 0)
+            {
+                if (i <= wep.RoundsPerShot / 2)
+                    AimRotater.transform.Rotate(transform.forward, wep.SpreadAmount);
+                else
+                {
+                    if (swapped)
+                    {
+                        AimRotater.transform.localRotation = Quaternion.identity;
+                        swapped = false;
+                    }
+                    AimRotater.transform.Rotate(transform.forward, -wep.SpreadAmount);
+                }
+            }
+            Vector2 aimPosition = new Vector2(AimHelper.transform.position.x, AimHelper.transform.position.y);
+            Vector2 direction = (aimPosition - (Vector2)transform.position);
             proj.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         }      
     }
@@ -164,7 +183,7 @@ public class player_manager : MonoBehaviour {
 
     private void ChangeWeapon()
     {
-        float dir = Input.GetAxis("Mouse ScrollWheel") * 10;
+        float dir = Input.GetAxis("Mouse ScrollWheel") * 100;
         if (dir < 0f) selectedWeapon = ((selectedWeapon - 1) + Weapons.Count) % Weapons.Count;
         else if (dir > 0f) selectedWeapon = ((selectedWeapon + 1) + Weapons.Count) % Weapons.Count;
     }
@@ -195,10 +214,71 @@ public class player_manager : MonoBehaviour {
 
         if (!debug_stationary)
         {
+            CanFire = (ShotTimer >= Weapons[selectedWeapon].RateOfFire) && !firing;
+
             Player_Look();
-            if (Input.GetMouseButtonDown(0)) Fire_Projectile();
+
+            Fire_Weapon();
+
+            //if (Input.GetMouseButtonDown(0)) Fire_Projectile();
             ChangeWeapon();
         }
+    }
+
+    void Fire_Weapon()
+    {
+        Weapon wep = Weapons[selectedWeapon];
+
+        switch (wep.FireMode)
+        {
+            case Weapon.FireModes.SINGLE: case Weapon.FireModes.SPREAD3: case Weapon.FireModes.SPREAD5:
+                if (Input.GetMouseButtonDown(0) && CanFire)
+                {
+                    Fire_Projectile();
+                    ShotTimer = 0.0f;
+                }
+                break;
+            case Weapon.FireModes.BURST2: case Weapon.FireModes.BURST3:
+                if (Input.GetMouseButtonDown(0) && CanFire)
+                {
+                    ShotTimer = 0.0f;
+                    firing = true;
+                    BurstCounter = wep.RateOfBurstShots;
+                }
+                if (firing && BurstCounter >= wep.RateOfBurstShots)
+                {
+                    Fire_Projectile();
+                    BurstCounter = 0f;
+                    ShotsFired++;
+                    if(wep.FireMode == Weapon.FireModes.BURST2)
+                    {
+                        if(ShotsFired > 1)
+                        {
+                            ShotsFired = 0;
+                            firing = false;
+                        }
+                    }
+                    else if (wep.FireMode == Weapon.FireModes.BURST3)
+                    {
+                        if (ShotsFired > 2)
+                        {
+                            ShotsFired = 0;
+                            firing = false;
+                        }
+                    }
+                    ShotTimer = 0f;
+                }
+                BurstCounter += Time.deltaTime;
+                break;
+            case Weapon.FireModes.FULLAUTO:
+                if (Input.GetMouseButton(0) && CanFire)
+                {
+                    Fire_Projectile();
+                    ShotTimer = 0.0f;
+                }
+                break;
+        }
+        ShotTimer += Time.deltaTime;
     }
 
     void FixedUpdate()

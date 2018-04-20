@@ -53,10 +53,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 1829287300684370, guid: c59c83751054e0445ad346d1137351ac, type: 2}
   FireMode: 2
-  RateOfFire: 0.25
+  RateOfFire: 0.5
   RateOfBurstShots: 0.125
   RoundsPerShot: 1
   MagazineCapacity: 20
+  SpreadAmount: 5
   GunColor:
     serializedVersion: 2
     rgba: 4282417407
