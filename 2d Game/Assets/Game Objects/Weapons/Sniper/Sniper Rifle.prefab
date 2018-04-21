@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17856a4643478764b94644d41a5361d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1829287300684370, guid: c41218afa564fc04aa404f2fcc6cc335, type: 2}
+  projectile: {fileID: 1829287300684370, guid: 5c82d7b40a7ee814b903f17fba5a18c4, type: 2}
   FireMode: 0
   RateOfFire: 2
   RateOfBurstShots: 0.125
@@ -61,3 +61,4 @@ MonoBehaviour:
   GunColor:
     serializedVersion: 2
     rgba: 4294901962
+  ProjectileSpeed: 75

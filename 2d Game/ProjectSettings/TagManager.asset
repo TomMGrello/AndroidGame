@@ -7,6 +7,7 @@ TagManager:
   - Team Manager
   - projectile
   - Game Manager
+  - Wall
   layers:
   - Default
   - TransparentFX

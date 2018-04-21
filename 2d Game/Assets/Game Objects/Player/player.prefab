@@ -236,9 +236,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.019571474, y: 0}
+  m_Offset: {x: 0.0032770436, y: 0}
   serializedVersion: 2
-  m_Radius: 5.4892893
+  m_Radius: 5.961822
 --- !u!65 &65207090529550456
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -267,7 +267,6 @@ MonoBehaviour:
   debug_team: 114
   movement_speed: 5
   projectile: {fileID: 1829287300684370, guid: c59c83751054e0445ad346d1137351ac, type: 2}
-  projectileSpeed: 50
   Weapons:
   - {fileID: 114205391908260368, guid: 2b75f59ea624d2c4e8c605489d2faf27, type: 2}
   - {fileID: 114305785693304170, guid: ce624703ba0516a478f371603fc7fd04, type: 2}
@@ -275,6 +274,7 @@ MonoBehaviour:
   - {fileID: 114407334973201490, guid: 69d154a4deaf73843af3821f18f94cec, type: 2}
   - {fileID: 114591401163898022, guid: 5b2655612fc2c8444b6ec15d00bff331, type: 2}
   - {fileID: 114999570253560082, guid: 70574d0563c2753499f39c5b2aa691ef, type: 2}
+  - {fileID: 114205391908260368, guid: c48fbd19158b7eb45bfc5b22b90f3eec, type: 2}
   selectedWeapon: 0
   AimHelper: {fileID: 1125407441794124}
   AimRotater: {fileID: 1704524113787980}

@@ -12,4 +12,5 @@ public class Weapon : MonoBehaviour {
     public int MagazineCapacity = 20;
     public float SpreadAmount = 5f;
     public Color32 GunColor = new Color32(255, 128, 64, 255);
+    public float ProjectileSpeed = 50f;
 }

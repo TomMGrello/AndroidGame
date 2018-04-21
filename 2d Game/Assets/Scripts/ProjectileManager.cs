@@ -10,6 +10,9 @@ public class ProjectileManager : MonoBehaviour {
     public const byte FADE_AMOUNT = 50;
     public const byte LIFETIME = 5;
     public GameObject playerSpawned;
+    public GameObject HitParticles;
+    public bool CanBounce = false;
+    public int NumberOfBounces = 1;
 
     private float time_count = 0f;
 
@@ -29,5 +32,15 @@ public class ProjectileManager : MonoBehaviour {
     public void CausedKill()
     {
         Debug.Log("KILL!");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(!collision.gameObject.Equals(playerSpawned))
+            Instantiate(HitParticles, transform.position, Quaternion.identity);
+        if (collision.gameObject.tag == "Wall")
+            if (!CanBounce)
+                Destroy(gameObject);
+
     }
 }

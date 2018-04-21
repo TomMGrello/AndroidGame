@@ -9,7 +9,6 @@ public class player_manager : MonoBehaviour {
     public char debug_team = 'r';
     public float movement_speed = 5;
     public GameObject projectile;
-    public float projectileSpeed = 50;
     public List<Weapon> Weapons = new List<Weapon>();
     public int selectedWeapon = 0;
     public GameObject AimHelper;
@@ -157,7 +156,7 @@ public class player_manager : MonoBehaviour {
             }
             Vector2 aimPosition = new Vector2(AimHelper.transform.position.x, AimHelper.transform.position.y);
             Vector2 direction = (aimPosition - (Vector2)transform.position);
-            proj.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+            proj.GetComponent<Rigidbody2D>().velocity = direction * wep.ProjectileSpeed;
         }      
     }
 

@@ -88,9 +88,9 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &61288114941286758
 BoxCollider2D:
@@ -221,3 +221,7 @@ MonoBehaviour:
   Team: 0
   Damage: 12
   playerSpawned: {fileID: 0}
+  HitParticles: {fileID: 1292197430852200, guid: 8ae9d8461a89b574bbb3976592ea15f8,
+    type: 2}
+  CanBounce: 0
+  NumberOfBounces: 1
